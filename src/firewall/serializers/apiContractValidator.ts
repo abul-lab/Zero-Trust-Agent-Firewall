@@ -1,3 +1,4 @@
+import { trimTrailingSlashes } from "../../util/trimTrailingSlashes.js";
 import { z, type ZodTypeAny } from "zod";
 import type {
   ApiEndpointContract,
@@ -105,7 +106,7 @@ export function compileDeclarativeSchema(
 }
 
 function compilePathTemplate(pattern: string): { regex: RegExp; paramNames: string[] } {
-  const normalized = pattern.trim().replace(/\/+$/, "") || "/";
+  const normalized = trimTrailingSlashes(pattern.trim()) || "/";
   const existing = pathRegexCache.get(normalized);
   if (existing) {
     return existing;
@@ -146,7 +147,7 @@ export function matchEndpointContract(
   method: HttpMethod,
   rawPathname: string,
 ): ContractMatchResult {
-  const pathname = rawPathname.trim().replace(/\/+$/, "") || "/";
+  const pathname = trimTrailingSlashes(rawPathname.trim()) || "/";
   const methodsMatchingPath: HttpMethod[] = [];
   let matchedParams: Record<string, string> = {};
 

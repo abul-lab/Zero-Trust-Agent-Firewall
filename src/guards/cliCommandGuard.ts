@@ -1,3 +1,4 @@
+import { trimTrailingSlashes } from "../util/trimTrailingSlashes.js";
 import path from "node:path";
 import type {
   CliActionPayload,
@@ -72,7 +73,7 @@ export interface CliGuardOptions {
 }
 
 function normalizePosixPath(p: string): string {
-  return p.replace(/\\/g, "/").replace(/\/+$/, "").toLowerCase();
+  return trimTrailingSlashes(p.replace(/\\/g, "/")).toLowerCase();
 }
 
 /**
