@@ -1,0 +1,56 @@
+{
+  "name": "zero-trust-agent-firewall",
+  "version": "1.0.0",
+  "description": "Fast, deterministic runtime firewall that checks AI agent API calls, CLI commands, and UI actions against live system state and security rules before execution.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "agent-firewall": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "benchmark": "node --import tsx src/cli.ts benchmark",
+    "serve": "node --import tsx src/cli.ts serve"
+  },
+  "keywords": [
+    "ai-agent",
+    "zero-trust",
+    "execution-firewall",
+    "runtime-security",
+    "quality-engineering",
+    "ssrf-protection",
+    "command-injection",
+    "openapi-validation",
+    "audit-chain"
+  ],
+  "author": "abul-lab",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.6"
+  }
+}
+

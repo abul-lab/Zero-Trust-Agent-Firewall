@@ -1,0 +1,22 @@
+# Dependencies & build output
+node_modules/
+dist/
+coverage/
+
+# Environment & local state
+.env
+.env.*
+!.env.example
+
+# Runtime audit logs & data
+data/
+*.jsonl
+*.log
+*.tsbuildinfo
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+

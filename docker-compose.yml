@@ -1,0 +1,15 @@
+services:
+  agent-firewall:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zero-trust-agent-firewall
+    ports:
+      - "4100:4100"
+    environment:
+      - NODE_ENV=production
+      - FIREWALL_HOST=0.0.0.0
+      - FIREWALL_PORT=4100
+      - FIREWALL_API_KEY=${FIREWALL_API_KEY:-}
+    restart: unless-stopped
+
