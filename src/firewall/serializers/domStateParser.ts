@@ -17,7 +17,11 @@ const TESTID_PREFIX_RE = /^(?:data-)?testid=(.+)$/i;
 
 // Brittle selector patterns that break on minor layout shifts or carry script payloads
 const BRITTLE_XPATH_RE = /^(?:\/html\/body|\(\/\/[a-z]+\[\d+\]){2,}|(?:\/[a-z0-9_-]+\[\d+\]){3,}/i;
-const BRITTLE_NTH_CHAIN_RE = /(?:>[^{,]+:nth-(?:child|of-type)\(\d+\)[^{,]*){2,}/i;
+// Two or more "> ... :nth-child(n)" segments in one selector, checked per segment (linear in the input).
+const NTH_SEGMENT_RE = /^[^{,]+:nth-(?:child|of-type)\(\d+\)/i;
+function hasBrittleNthChain(selector: string): boolean {
+  return selector.split(">").slice(1).filter((seg) => NTH_SEGMENT_RE.test(seg.trimStart())).length >= 2;
+}
 const UNSAFE_SELECTOR_RE = /(?:javascript\s*:|vbscript\s*:|data\s*:\s*text\/html|<script\b)/i;
 
 /**
@@ -144,7 +148,7 @@ export function inspectSelectorSafety(selector: string): {
       reason: `Selector '${trimmed}' is a brittle positional XPath that breaks on minor DOM changes; use data-testid or ARIA role selectors.`,
     };
   }
-  if (BRITTLE_NTH_CHAIN_RE.test(trimmed)) {
+  if (hasBrittleNthChain(trimmed)) {
     return {
       safe: false,
       reason: `Selector '${trimmed}' chains multiple positional :nth-child() selectors; use stable semantic or test-id locators.`,
